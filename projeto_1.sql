@@ -806,18 +806,55 @@ SELECT calc_comissao('01/01/2016 00:00:00','01/01/2016 00:00:00');
 -- Substituir string com overlay() e extraindo com substring()
 SELECT OVERLAY(funcionario_nome PLACING '0000' FROM 3 FOR 5)
    FROM funcionarios
-  WHERE id = 1
+  WHERE id = 1;
    
 SELECT SUBSTRING(funcionario_nome FROM 3 FOR 5)
   FROM funcionarios
- WHERE id = 1
+ WHERE id = 1;
 
 -- Localizar uma string position()
 
 SELECT POSITION('muel' IN funcionario_nome)
   FROM funcionarios
- WHERE id = 1
+ WHERE id = 1;
  
 /* Funções para DATA/HORA */
 
+-- Para verificar qual o tipo de formato que meu database esta configurado
+SHOW datestyle;
 
+-- Para alterar o tipo de formato de data
+ALTER DATABASE postgres set datestyle TO iso, dmy;
+
+-- Função para descobrir idade
+SELECT age(NOW(), TIMESTAMP '23/04/2001');
+
+
+/* Funções para consultar data, hora e data/hora */
+
+-- Data e Hora atual
+SELECT CLOCK_TIMESTAMP();
+
+-- Data atual
+SELECT CURRENT_DATE;
+
+-- Hora atual
+SELECT CURRENT_TIME;
+
+-- Data e Hora atual
+SELECT CURRENT_TIMESTAMP;
+
+-- Hora Atual
+SELECT LOCALTIME;
+
+-- Data e Hora Atual
+SELECT LOCALTIMESTAMP;
+
+-- Data e hora atual
+SELECT NOW();
+
+-- Data e Hora atual
+SELECT STATEMENT_TIMESTAMP();
+
+-- Data e Hora atual no formato de texto
+SELECT TIMEOFDAY()
