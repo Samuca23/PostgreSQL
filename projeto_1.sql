@@ -857,4 +857,70 @@ SELECT NOW();
 SELECT STATEMENT_TIMESTAMP();
 
 -- Data e Hora atual no formato de texto
-SELECT TIMEOFDAY()
+SELECT TIMEOFDAY();
+
+-- Extrair o dia da data/hora informada 
+SELECT DATE_PART('day', TIMESTAMP '23/04/2001 20:05:00');
+
+-- Extrair os segundos da data/hora informada
+SELECT DATE_PART('month', TIMESTAMP '23/04/2001 20:05:00');
+
+-- Extrair o ano da data/hora informada
+SELECT DATE_PART('year', TIMESTAMP '23/04/2001 20:05:00');
+
+-- Extrair a hora da data/hora informado
+SELECT DATE_PART('hour', TIMESTAMP '23/04/2001 20:05:00');
+
+-- Extrair os minutos da data/hora informado
+SELECT DATE_PART('minute', TIMESTAMP '23/04/2001 20:05:00');
+
+-- Extrair os segundos da data/hora informada
+SELECT DATE_PART('second', TIMESTAMP '23/04/2001 20:05:00');
+
+-- Conta a quantidade de meses em um intervalo de dias 
+SELECT JUSTIFY_DAYS(INTERVAL '43 days');
+
+-- Conta a quantidade de dias em um intervalo de horas
+SELECT JUSTIFY_HOURS(INTERVAL '32 hours');
+
+-- Calcula a quantidade de meses, dias ou horas, subtraindo meses com horas
+SELECT JUSTIFY_INTERVAL(INTERVAL '2 mon - 14 days');
+
+-- Calcula a quantidade de meses, dias ou horas subtraindo dias com horas
+SELECT JUSTIFY_INTERVAL(INTERVAL '3 days - 8 hour');
+
+-- Calcula a quantidade de meses, dias ou horas, somando meses com horas
+SELECT JUSTIFY_INTERVAL(INTERVAL '4 mon - 28 hour');
+
+-- Para extrair o século de uma determinada data
+SELECT EXTRACT(CENTURY FROM TIMESTAMP '23/04/2001 20:34:20');
+
+-- Para extrair o dia de uma determinada data 
+SELECT EXTRACT(DAY FROM TIMESTAMP '23/04/2001 20:34:20');
+
+-- Para extrair a década de uma determinada data
+SELECT EXTRACT(DECADE FROM TIMESTAMP '23/04/2001 20:34:20');
+
+-- Para extrair o dia do ano em uma determinada data
+SELECT EXTRACT (DOY FROM TIMESTAMP '23/04/2001 20:34:20');
+
+-- Para extrair a hora de um determinado horário
+SELECT EXTRACT(HOUR FROM TIMESTAMP '23/04/2001 20:34:20');
+
+-- Para extrair o ano de uma determinada data
+SELECT EXTRACT(YEAR FROM TIMESTAMP '23/04/2001 20:34:20');
+
+-- Para extrair os minutos de um determinada data
+SELECT EXTRACT(MINUTE FROM TIMESTAMP '23/04/2201 20:34:20');
+
+-- Para extrair o mês de uma determinada data
+SELECT EXTRACT(MONTH FROM TIMESTAMP '23/04/2001 20:34:20');
+
+-- Para extrair o valor dos segundos de um determinado horário
+SELECT EXTRACT(SECOND FROM TIMESTAMP '23/04/2001 20:34:20');
+
+
+SELECT EXTRACT (YEAR FROM data_criacao)
+  FROM funcionarios 
+ WHERE id = 1;
+ 
