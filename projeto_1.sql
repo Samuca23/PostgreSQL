@@ -923,4 +923,21 @@ SELECT EXTRACT(SECOND FROM TIMESTAMP '23/04/2001 20:34:20');
 SELECT EXTRACT (YEAR FROM data_criacao)
   FROM funcionarios 
  WHERE id = 1;
- 
+
+-- COUNT para contar quantos registros existem na tabela.
+SELECT COUNT(*)
+  FROM funcionarios;
+  
+-- SUM para fazer somas na tabela.
+SELECT SUM(venda_total)
+  FROM vendas;
+  
+-- AVG para calcular a média.
+SELECT AVG(produto_valor)
+  FROM produtos;
+  
+-- MAX para o valor máximo da coluna e MIN para o mínimo.
+SELECT MAX(produto_valor), MIN(produto_valor)
+  FROM produtos;
+  
+-- Utilizando o GROUP BY
