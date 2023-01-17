@@ -966,3 +966,10 @@ SELECT retorna_nome_produto(produto_id), SUM(item_total)
   FROM itens_vendas
   GROUP BY produto_id;
 
+-- Ordenação
+SELECT retorna_nome_produto(produto_id) AS Nome, 
+       SUM(item_total) AS valor_total
+  FROM itens_vendas
+  GROUP BY produto_id
+  ORDER BY  valor_total DESC;
+ 
