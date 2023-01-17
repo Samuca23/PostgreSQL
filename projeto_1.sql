@@ -941,3 +941,28 @@ SELECT MAX(produto_valor), MIN(produto_valor)
   FROM produtos;
   
 -- Utilizando o GROUP BY
+SELECT produto_id, SUM(item_total)
+  FROM itens_vendas
+  GROUP BY produto_id;
+  
+-- Criando função para apresentar os nomes do produto.
+CREATE OR REPLACE FUNCTION retorna_nome_produto(prod_id int)
+RETURNS text AS
+$$
+DECLARE
+nome text;
+BEGIN
+    SELECT produto_nome
+      INTO nome
+      FROM produtos
+     WHERE id = prod_id;
+     RETURN nome;
+END
+$$
+LANGUAGE plpgsql;
+
+-- Refazendo o SELECT com GROUP BY com a função que retorna o nome dos produtos.
+SELECT retorna_nome_produto(produto_id), SUM(item_total)
+  FROM itens_vendas
+  GROUP BY produto_id;
+
