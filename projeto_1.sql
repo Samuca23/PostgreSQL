@@ -986,3 +986,29 @@ SELECT retorna_nome_produto(produto_id) AS Nome,
   GROUP BY produto_id
   ORDER BY  valor_total DESC;
  
+
+
+-- Criação da tabela para gravar logs da tabela de Produtos.
+CREATE TABLE logs_produtos(
+    id                   INT NOT NULL PRIMARY KEY,
+    data_alteração       TIMESTAMP,
+    alteracao            VARCHAR(10),
+    id_old               INT,
+    produto_codigo_old   VARCHAR(20),
+    produto_nome_old     VARCHAR(60),
+    produto_valor_old    REAL,
+    produto_situacao_old VARCHAR(1) DEFAULT 'A',
+    data_criacao_old     TIMESTAMP,
+    data_atualizacao_old TIMESTAMP,
+    id_new               INT,
+    produto_codigo_new   VARCHAR(20),
+    produto_nome_new     VARCHAR(60),
+    produto_valor_new    REAL,
+    produto_situacao_new VARCHAR(1) DEFAULT 'A',
+    data_criacao_new     TIMESTAMP,
+    data_atualizacao_new TIMESTAMP
+);
+
+CREATE SEQUENCE logs_produtos_id_seq;
+
+ALTER TABLE logs_produtos ALTER COLUMN id SET DEFAULT NEXTVAL('logs_produtos_id_seq');
