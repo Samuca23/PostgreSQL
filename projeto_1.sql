@@ -1012,3 +1012,94 @@ CREATE TABLE logs_produtos(
 CREATE SEQUENCE logs_produtos_id_seq;
 
 ALTER TABLE logs_produtos ALTER COLUMN id SET DEFAULT NEXTVAL('logs_produtos_id_seq');
+
+
+-- Trigger para inclusao de log da tabela de logs_produtos
+CREATE OR REPLACE FUNCTION gera_log_produtos()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        INSERT INTO logs_produtos(
+                alteracao,
+                data_alteracao,
+                id_new,
+                produto_codigo_new,
+                produto_nome_new,
+                produto_valor_new,
+                produto_situacao_new,
+                data_criacao_new,
+                data_atualizacao_new)
+        VALUES (
+                TG_OP,
+                NOW(),
+                NEW.id,
+                NEW.produto_codigo,
+                NEW.produto_nome,
+                NEW.produto_valor,
+                NEW.produto_situacao,
+                NEW.data_criacao,
+                NEW.data_atualizacao);
+                
+        RETURN NEW;
+    ELSEIF TG_OP = 'UPDATE' THEN
+        INSERT INTO logs_produtos (
+                alteracao,
+                data_alteracao,
+                id_old,
+                produto_codigo_old,
+                produto_nome_old,
+                produto_valor_old,
+                produto_situacao_old,
+                data_criacao_old,
+                data_atualizacao_old,
+                id_new,
+                produto_codigo_new,
+                produto_nome_new,
+                produto_situacao_new,
+                data_criacao_new,
+                data_alteracao_new)
+        VALUES (
+                TG_OP,
+                NOW(),
+                OLD.id,
+                OLD.produto_codigo,
+                OLD.produto_nome,
+                OLD.produto_situacao,
+                OLD.data_criacao,
+                OLD.data_atualizacao,
+                NEW.id,
+                NEW.produto_codigo,
+                NEW.produto_nome,
+                NEW.produto_situacao,
+                NEW.data_criacao,
+                NEW.data_atualizacao);
+         RETURN NEW;
+    ELSEIF TG_OP = 'DELETE' THEN
+        INSERT INTO logs_produtos (
+                alteracao,
+                data_alteracao,
+                produto_codigo_old,
+                produto_nome_old,
+                produto_situacao_old,
+                data_criacao_old,
+                data_atualizacao_old)
+        VALUES(
+                TG_OP,
+                NOW(),
+                OLD.id,
+                OLD.produto_codigo,
+                OLD.produto_nome,
+                OLD.produto_situacao,
+                OLD.data_criacao,
+                OLD.data_atualizacao);
+        RETURN NEW;
+    END IF;
+END
+$$
+LANGUAGE 'plpgsql';
+
+CREATE TRIGGER tri_log_produtos
+    AFTER INSERT OR UPDATE OR DELETE ON produtos
+    FOR EACH ROW EXECUTE
+    PROCEDURE gera_log_produtos();
