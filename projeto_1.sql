@@ -991,7 +991,7 @@ SELECT retorna_nome_produto(produto_id) AS Nome,
 -- Criação da tabela para gravar logs da tabela de Produtos.
 CREATE TABLE logs_produtos(
     id                   INT NOT NULL PRIMARY KEY,
-    data_alteração       TIMESTAMP,
+    data_alteracao       TIMESTAMP,
     alteracao            VARCHAR(10),
     id_old               INT,
     produto_codigo_old   VARCHAR(20),
@@ -1008,6 +1008,7 @@ CREATE TABLE logs_produtos(
     data_criacao_new     TIMESTAMP,
     data_atualizacao_new TIMESTAMP
 );
+
 
 CREATE SEQUENCE logs_produtos_id_seq;
 
@@ -1056,21 +1057,24 @@ BEGIN
                 id_new,
                 produto_codigo_new,
                 produto_nome_new,
+                produto_valor_new,
                 produto_situacao_new,
                 data_criacao_new,
-                data_alteracao_new)
+                data_atualizacao_new)
         VALUES (
                 TG_OP,
                 NOW(),
                 OLD.id,
                 OLD.produto_codigo,
                 OLD.produto_nome,
+                OLD.produto_valor,
                 OLD.produto_situacao,
                 OLD.data_criacao,
                 OLD.data_atualizacao,
                 NEW.id,
                 NEW.produto_codigo,
                 NEW.produto_nome,
+                NEW.produto_valor,
                 NEW.produto_situacao,
                 NEW.data_criacao,
                 NEW.data_atualizacao);
@@ -1079,8 +1083,10 @@ BEGIN
         INSERT INTO logs_produtos (
                 alteracao,
                 data_alteracao,
+                id_old,
                 produto_codigo_old,
                 produto_nome_old,
+                produto_valor_old,
                 produto_situacao_old,
                 data_criacao_old,
                 data_atualizacao_old)
@@ -1090,6 +1096,7 @@ BEGIN
                 OLD.id,
                 OLD.produto_codigo,
                 OLD.produto_nome,
+                OLD.produto_valor,
                 OLD.produto_situacao,
                 OLD.data_criacao,
                 OLD.data_atualizacao);
@@ -1103,3 +1110,21 @@ CREATE TRIGGER tri_log_produtos
     AFTER INSERT OR UPDATE OR DELETE ON produtos
     FOR EACH ROW EXECUTE
     PROCEDURE gera_log_produtos();
+
+SELECT	alteracao
+       ,data_alteracao
+	   ,id_new
+	   ,produto_codigo_new			
+	   ,produto_nome_new					
+	   ,produto_valor_new				
+	   ,produto_situacao_new	
+	   ,data_criacao_new					
+	   ,data_atualizacao_new	
+FROM logs_produtos;
+
+UPDATE produtos SET produto_valor = 99 WHERE produto_nome = 'CHURRASCO';
+
+DELETE FROM produtos WHERE produto_nome = 'PANQUECA';
+
+SELECT * 
+  FROM logs_produtos;
