@@ -1128,3 +1128,11 @@ DELETE FROM produtos WHERE produto_nome = 'PANQUECA';
 
 SELECT * 
   FROM logs_produtos;
+
+-- Desabilitar a Trigger.
+ALTER TABLE produtos DISABLE TRIGGER tri_log_produtos;
+
+-- Habilitar a Trigger.
+ALTER TABLE produtos ENABLE TRIGGER tri_log_produtos;
+
+DROP TRIGGER tri_log_produtos;
