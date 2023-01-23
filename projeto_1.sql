@@ -1136,3 +1136,29 @@ ALTER TABLE produtos DISABLE TRIGGER tri_log_produtos;
 ALTER TABLE produtos ENABLE TRIGGER tri_log_produtos;
 
 DROP TRIGGER tri_log_produtos;
+
+
+-- Subconsultas
+
+SELECT funcionario_nome
+  FROM funcionarios
+ WHERE id IN (SELECT funcionario_id
+               FROM vendas);
+               
+SELECT funcionario_nome
+  FROM funcionarios
+ WHERE id IN (SELECT funcionario_id
+               FROM vendas
+              WHERE date_part('year', data_criacao) = '2016');
+ 
+SELECT DISTINCT funcionario_nome
+  FROM funcionarios
+ WHERE id IN (SELECT funcionario_id
+               FROM vendas)
+  ORDER BY funcionario_nome;
+
+-- Consulta com JOIN
+SELECT DISTINCT funcionario_nome
+  FROM funcionarios, vendas
+ WHERE funcionarios.id = vendas.id
+  ORDER BY funcionario_nome;
