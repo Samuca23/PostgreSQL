@@ -1160,5 +1160,33 @@ SELECT DISTINCT funcionario_nome
 -- Consulta com JOIN
 SELECT DISTINCT funcionario_nome
   FROM funcionarios, vendas
- WHERE funcionarios.id = vendas.id
+ WHERE funcionarios.id = vendas.funcionario_id
   ORDER BY funcionario_nome;
+  
+SELECT DISTINCT funcionario_nome
+  FROM funcionarios, vendas
+ ORDER BY funcionario_nome;
+ 
+-- inner join
+SELECT DISTINCT funcionario_nome
+  FROM funcionarios
+  INNER JOIN vendas
+    ON funcionarios.id = vendas.funcionario_id
+  ORDER BY funcionario_nome
+  
+-- left join 
+SELECT funcionario_nome, v.id
+  FROM funcionarios f
+  LEFT JOIN vendas v
+    ON f.id = v.funcionario_id
+  ORDER BY funcionario_nome DESC
+  
+-- right join
+SELECT v.id, 
+       v.venda_total, 
+       funcionario_nome
+  FROM vendas v
+  RIGHT JOIN funcionarios f
+    ON f.id = v.funcionario_id
+ ORDER BY v.venda_total;
+  
