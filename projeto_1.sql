@@ -1189,4 +1189,57 @@ SELECT v.id,
   RIGHT JOIN funcionarios f
     ON f.id = v.funcionario_id
  ORDER BY v.venda_total;
+
+
+-- VIEWS
+ 
+-- Vendas do dia 
+CREATE OR REPLACE VIEW vendas_do_dias AS
+    SELECT DISTINCT produto_nome,
+                    SUM(vendas.venda_total)
+      FROM vendas
+      JOIN itens_vendas
+        ON itens_vendas.vendas_id = vendas.id
+      JOIN produtos 
+        ON produtos.id = itens_vendas.produto_id
+     WHERE vendas.data_criacao = '01/01/2016'
+       GROUP BY produto_nome;
+
+SELECT * 
+  FROM vendas_do_dias;
   
+SELECT * 
+  FROM vendas_do_dias
+ WHERE produto_nome = 'Celular';
+ 
+
+CREATE OR REPLACE VIEW produtos_vendas AS
+    SELECT produtos.id             AS produto_id,
+           produtos.produto_nome   AS produto_nome,
+           vendas.id               AS venda_id,
+           itens_vendas.id         AS item_venda_id,
+           itens_vendas.item_valor AS item_venda_valor,
+           vendas.data_criacao     AS data_criacao
+      FROM vendas
+      JOIN itens_vendas
+        ON itens_vendas.vendas_id = vendas.id
+      JOIN produtos
+        ON produtos.id = itens_vendas.produto_id
+      ORDER BY data_criacao DESC;
+       
+        
+SELECT * 
+  FROM produtos_vendas;
+  
+SELECT *
+  FROM produtos_vendas
+ WHERE data_criacao = '01/01/2016';
+ 
+
+CREATE OR REPLACE VIEW produtos_estoque AS
+    SELECT *
+      FROM produtos;
+      
+SELECT produto_nome
+  FROM produtos_estoque;
+ 
