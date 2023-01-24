@@ -1243,3 +1243,41 @@ CREATE OR REPLACE VIEW produtos_estoque AS
 SELECT produto_nome
   FROM produtos_estoque;
  
+-- Indexes
+-- Cria index
+CREATE INDEX idx_cargo ON funcionarios(funcionario_cargo);
+
+-- Deleta index
+DROP INDEX idx_cargo    
+
+-- Btree
+CREATE INDEX idx_cargo ON funcionarios USING btree (funcionario_cargo);
+
+-- Hash
+CREATE INDEX idx_cargo ON funcionarios USING hash (funcionario_cargo);
+
+-- Concorrentes
+CREATE INDEX concurrentyle idx_nome ON funcionarios btree (funcionario_nome);
+
+-- Multicolunas
+CREATE INDEX idx_funcionario_id_codigo ON funcionarios(id, funcionario_codigo);
+
+SELECT * 
+  FROM funcionarios
+ WHERE id > 10
+   AND funcionario_codigo < '1000';
+   
+-- Index unico
+CREATE UNIQUE INDEX idx_unique_codigo ON funcionarios USING btree(funcionario_codigo);
+
+SELECT funcionario_codigo
+  FROM funcionarios;
+  
+INSERT INTO	funcionarios(funcionario_codigo, funcionario_nome) VALUES('00001',	'DANIEL VINICIUS SOUZA');
+
+-- Analyze
+ANALYZE VERBOSE;
+
+ANALYZE VERBOSE funcionarios;
+
+ANALYZE VERBOSE funcionarios(funcionario_cargo);
